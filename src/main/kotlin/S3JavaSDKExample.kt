@@ -1,13 +1,7 @@
-//import com.amazonaws.auth.BasicAWSCredentials
-//import com.amazonaws.services.s3.model.PutObjectRequest
-//import com.amazonaws.services.s3.model.PutObjectResult
-
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
-import software.amazon.awssdk.services.s3.S3Client
-import software.amazon.awssdk.services.s3.model.PutObjectRequest
-
-
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.model.PutObjectRequest
+import com.amazonaws.services.s3.model.PutObjectResult
 import org.apache.commons.io.FileUtils
 import utils.Credentials
 import java.io.File
@@ -16,7 +10,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-
 
 /**
  * Created by William Martin on 27/05/2021.
@@ -70,18 +63,8 @@ object S3JavaSDKExample : Throwable() {
 
     @Throws(Exception::class)
     fun PopulateSimpleBucket() {
-//        val awsCreds = BasicAWSCredentials(Credentials.ACCESS_KEY_ID, Credentials.SECRET_ACCESS_KEY)
-//        val s3Client = AmazonS3Client(awsCreds)
-
-        val awsCreds = AwsBasicCredentials.create(
-            Credentials.ACCESS_KEY_ID,
-            Credentials.SECRET_ACCESS_KEY
-        )
-        val s3 = S3Client.builder()
-            .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
-            .build()
-
-
+        val awsCreds = BasicAWSCredentials(Credentials.ACCESS_KEY_ID, Credentials.SECRET_ACCESS_KEY)
+        val s3Client = AmazonS3Client(awsCreds)
         val bucketName = "donaciones"
         val fileName = Credentials.FILE_TO_COPY
         val file = File( Credentials.PATH_FILE + fileName)
