@@ -1,0 +1,14 @@
+{
+   "firstName": "Mary",
+   "lastName": "Froome",
+   "gender": "female",
+   "age": 18,
+   "address": {
+       "streetAddress": "101",
+       "city": "Los Angeles",
+       "state": "CA"
+   },
+   "phoneNumbers": [
+       { "type": "office", "number": "7949282325" }
+   ]
+}
