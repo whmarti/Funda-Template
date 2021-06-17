@@ -1,12 +1,12 @@
 //Author: Developer William.
 
-import org.apache.commons.io.FileUtils
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.core.sync.ResponseTransformer
-import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.*
+import software.amazon.awssdk.regions.Region
+import org.apache.commons.io.FileUtils
 import utils.Credentials
 import java.io.File
 import java.io.FileOutputStream
@@ -43,8 +43,10 @@ object S3JavaSDKExample : Throwable() {
     private fun PopulateSimpleAWSBucket() {
         val bucketName = "donaciones"
         val fileName = Credentials.FILE_TO_COPY
-        val key_name = Credentials.PATH_FILE + fileName
+        val fileName1 = Credentials.FILE_TO_COPY1
+        //val key_name = Credentials.PATH_FILE + fileName
         val file = File(Credentials.PATH_FILE + fileName)
+        val file1 = File(Credentials.PATH_FILE + fileName1)
         val awsCreds = AwsBasicCredentials.create(
             Credentials.ACCESS_KEY_ID,
             Credentials.SECRET_ACCESS_KEY
@@ -54,13 +56,28 @@ object S3JavaSDKExample : Throwable() {
             .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
             .region(region)
             .build()
+        // val key = UUID.randomUUID().toString()
+        //Una forma si necesito solo copiar 1 archivo:
+        var request: PutObjectRequest = PutObjectRequest.builder()
+            .key(fileName)
+            .bucket(bucketName)
+            .build()
+        s3.putObject(request, file.toPath())
         try {
-            val key = UUID.randomUUID().toString()
-            val request: PutObjectRequest = PutObjectRequest.builder()
+//Otra forma si necesito multiples archivos, genero el request object N veces:
+            s3.putObject(PutObjectRequest.builder()
                 .key(fileName)
                 .bucket(bucketName)
                 .build()
-            s3.putObject(request, file.toPath())
+                , file.toPath())
+
+
+
+            s3.putObject(PutObjectRequest.builder()
+                .key(fileName1)
+                .bucket(bucketName)
+                .build()
+                ,file1.toPath())
 
             //Solo por verificacion:
             val getObjectRequest = GetObjectRequest.builder()

@@ -3,7 +3,8 @@ package utils
 object Credentials {
     const val ACCESS_KEY_ID = "AKIAUEQBJZXZHUSHGZ4J"
     const val SECRET_ACCESS_KEY = "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"
-    const val FILE_TO_COPY = "citizen1.json"
+    const val FILE_TO_COPY = "citizen.json"
+    const val FILE_TO_COPY1 = "citizen1.json"
     const val PATH_FILE = "c:\\temp\\"
     const val SAVE_DIR = "c:\\temp\\download\\"
 
